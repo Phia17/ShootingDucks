@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet"><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Carnival Shooting — 2 Players</title>
+<style>
+  html,body{
+    height:100%; margin:0;
+    background:#EBEBEB;
+  font-family: "Press Start 2P", system-ui;
+
+  }  html,body{
+    height:100%; margin:0;
+    background:#EBEBEB;
+  font-family: "Press Start 2P", system-ui;
+
+  }
+  #container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 10px; /* add some padding */
+}
+
+canvas {
+  width: 100%;
+  max-width: 1000px;
+  height: auto;
+  border: 6px solid #222;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+  filter: blur(6px);
+  transition: filter 0.4s ease;
+  font-family: "Press Start 2P", system-ui;
+  font-weight: 400;
+  font-style: normal;
+
+}
+
+  #hud {
+  position: fixed;
+  top: 15px;
+  left: 50px; 
+  right: 10px;      /* align to left side */
+  width: auto;      /* shrink to content width */
+  display: flex;
+ /* stack scores vertically */
+    gap: 1110px;    /* spacing between scores */
+  padding: 0;
+  z-index: 3;
+  pointer-events: none;
+  margin: 0;        /* remove margin */
+}
+
+
+.score {
+  margin: 0; /* remove horizontal margin */
+  font-size: 20px;
+  gap: 6px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 12px;
+  color: #fff;
+  border: 2px solid #fff;
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.6);
+  min-width: 50px;
+}
+
+
+#score1Box {
+  background: linear-gradient(135deg, #ff5252, #b71c1c);
+  box-shadow: 0 4px 12px rgba(183,28,28,0.6);
+}
+
+#score2Box {
+  background: linear-gradient(135deg, #40c4ff, #01579b);
+  box-shadow: 0 4px 12px rgba(1,87,155,0.6);
+}
+
+
+  /* Overlay menu */
+  #overlay{
+    position:fixed; inset:0;
+    background:rgba(0,0,0,0.6);
+    display:flex; align-items:center; justify-content:center;
+    z-index:10;
+  font-family: "Press Start 2P", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+  #menu{
+    background:#FBF3D5;
+    padding:20px 40px;
+    border-radius:12px;
+    text-align:center;
+    max-width:400px;
+    box-shadow:0 6px 20px rgba(0,0,0,0.4);
+  font-family: "Press Start 2P", system-ui;
+  font-weight: 400;
+  font-style: normal;
+
+    }
+  
+  #menu h1{
+    margin-top:0; 
+    color:#d32f2f;
+    font-family: "Press Start 2P", system-ui;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 20px;
+
+  }
+  #menu p{
+    font-size:10px; 
+    color:#333; 
+    line-height:1.5;
+     margin:20px 0;
+     font-family: "Press Start 2P", system-ui;
+  font-weight: 400;
+    }
+  #menu button{
+    padding:10px 10px; 
+    margin:5px;
+    border:none; 
+    border-radius:5px;
+    font-size:10px; 
+    font-weight:600;
+    cursor:pointer;
+    background:#3396D3; 
+    color:#fff;
+    transition: background 0.3s;
+  font-family: "Press Start 2P", system-ui;
+  font-weight: 400;
+  font-size: 10px;
+  }
+  #menu button:hover{
+    background:#267bb0;
+  }
+  @media (max-width: 520px) {
+  #hud {
+    top: 10px;
+    left: 10px;
+    gap: 5px;
+    font-size: 16px;
+  }
+
+  #overlay #menu {
+    max-width: 90vw;
+    padding: 20px;
+  }
+}
+.cloud {
+      position: absolute;
+      width: 100px; /* larger clouds */
+    }
+    .cloud.top-left { top: 20px; left: 100px; }
+    .cloud.top-right { top: 20px; right: 20px; }
+    .cloud.mid-left { top: 110px; left: 30px; }
+    .cloud.mid-right { top: 100px; right: 40px; }
+.title-wrapper {
+      position: absolute;
+      top: 100px; /* vertically align with clouds */
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+    }
+
+    .title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 28px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #222;
+      margin: 0;
+    }
+
+    .subtitle {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 12px;
+      margin-top: 10px;
+      color: #666;
+    }
+.tree {
+      position: absolute;
+      bottom:4px; /* adjusted to fit larger size */
+      right: 550px;
+      max-width: 350px; /* bigger tree */
+    }
+    .grass{
+      position: absolute;
+       /* adjusted to fit larger size */
+      right: 600px;
+      width: 150px; 
+      top: 440px;
+    }
+     .grass.bottom1 { bottom: 20px; left: 100px; }
+    .grass.bottom2 { bottom: 20px; left: 150px; }
+    .grass.bottom3 { bottom: 20px; left: 0px; }
+    .grass.bottom4 { bottom: 20px; left: 200px; }
+    .grass.bottom5 { bottom: 20px; left: 250px; }
+    .grass.bottom6 { bottom: 20px; left: 300px; }
+    .grass.bottom7 { bottom: 20px; left: 500px; }
+    .grass.bottom8 { bottom: 20px;  }
+    .grass.bottom9 { bottom: 20px; left: 250px; }
+    .grass.bottom10 { bottom: 20px; left: 400px; }
+    .grass.bottom11{ bottom: 20px; left: 600px; }
+
+    #container1 {
+        background: #ded6d9;
+    border-radius: 20px;
+    width: 300px;
+    height: 150px;
+    font-family: monospace;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+     padding: 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      left:190px;
+      top: 250px;
+      border: 2px solid black;
+}
+    .duck {
+      position: absolute;
+      width: 50px;
+      animation: float 3s infinite ease-in-out;
+    }
+    .duck.bottom1 {  top: 400px; left: 60px; }
+    .duck.bottom2 {  top: 240px; left: 160px; }
+    .duck.bottom3 {  top: 350px; left: 160px; }
+    .duck.bottom4 {  top: 240px; left: 550px; }
+    .duck.bottom5 {  top: 450px; left: 150px; }
+    .duck.bottom6 {  top: 350px;left: 600px; }
+    .duck.bottom7 {  top: 470px; left: 500px; }
+    .duck.bottom8 {  top: 240px; left: 550px; }
+    .duck.bottom9 {  top: 460px;  }
+    .duck.bottom10 {  top: 460px;left: 680px;  }
+</style>
+</head>
+<body>
+<div id="hud">
+  <div id="score1Box" class="score">P1: <span id="score1">0</span></div>
+  <div id="score2Box" class="score">P2: <span id="score2">0</span></div>
+</div>
+
+
+<div id="container">
+  <canvas id="game" width="400" height="600" style="position: relative; z-index: 1;"></canvas>
+</div>
+
+<div id="overlay" style="position: fixed; inset: 0; z-index: 10; background: rgba(215, 203, 207, 0.75); display: flex; justify-content: center; align-items: center;">
+  <div id="menu" style="width: 90%;         /* take 90% of screen */
+  max-width: 700px; 
+      height: 500px;
+      background: #dbd3d3;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      padding: 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      border: 2px solid black;">
+    <img src="clouds.png" alt="cloud" class="cloud top-left">
+    <img src="clouds.png" alt="cloud" class="cloud top-right">
+    <img src="clouds.png" alt="cloud" class="cloud mid-left">
+    <img src="clouds.png" alt="cloud" class="cloud mid-right">
+
+    <!-- Title centered within clouds -->
+    <div class="title-wrapper">
+      <div class="title">SHOOTING DUCKS</div>
+      <div class="subtitle">( Carnival Filipino Game )</div>
+    </div>
+
+    <!-- Button -->
+
+    <!-- Ducks -->
+    <img src="duck.png" alt="duck" class="duck bottom1">
+    <img src="duck.png" alt="duck" class="duck bottom2">
+    <img src="duck.png" alt="duck" class="duck bottom3">
+    <img src="duck.png" alt="duck" class="duck bottom4">
+    <img src="duck.png" alt="duck" class="duck bottom5">
+    <img src="duck.png" alt="duck" class="duck bottom6">
+    <img src="duck.png" alt="duck" class="duck bottom7">
+    <img src="duck.png" alt="duck" class="duck bottom8">
+    <img src="duck.png" alt="duck" class="duck bottom9">
+    <img src="duck.png" alt="duck" class="duck bottom10">
+    
+
+  
+
+    <!-- Tree -->
+    <img src="tree.png" alt="tree" class="tree">
+
+    <img src="grass.png" alt="grass" class="grass bottom1">
+    <img src="grass.png" alt="grass" class="grass bottom2">
+    <img src="grass.png" alt="grass" class="grass bottom3">
+    <img src="grass.png" alt="grass" class="grass bottom4">
+    <img src="grass.png" alt="grass" class="grass bottom5">
+    <img src="grass.png" alt="grass" class="grass bottom6">
+    <img src="grass.png" alt="grass" class="grass bottom7">
+    <img src="grass.png" alt="grass" class="grass bottom8">
+    <img src="grass.png" alt="grass" class="grass bottom9">
+    <img src="grass.png" alt="grass" class="grass bottom10">
+    <img src="grass.png" alt="grass" class="grass bottom11">
+
+    <div id="container1">
+<p style="font-size: 11px; margin-bottom: 30px; text-align: left; line-height: 1.8;">
+      <b>How to Play:</b><br> 
+      🟥 Player 1: Move mouse, click/space to shoot<br> 
+
+      🟦 Player 2: Arrow keys to move/aim, Enter to shoot
+    </p> 
+    </div>
+
+    <button id="startBtn" style="bottom: 20px;
+    position: relative;
+background: #cd7a6f; border: 2px solid #000000; color: white; border-radius: 20px; padding: 15px 30px; font-size: 12px; font-weight: 600; cursor: pointer; user-select: none; box-shadow: 0 4px 6px rgba(205,122,111,0.8); transition: background 0.3s ease;" onmouseover="this.style.background='#b0635d'" onmouseout="this.style.background='#cd7a6f'">Let’s Play</button>
+  </div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
